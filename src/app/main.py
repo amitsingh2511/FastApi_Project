@@ -15,6 +15,8 @@ import uvicorn
 
 from app.web.db import disconnect_db
 from app.web.customers.controllers import customer_controllers
+from app.web.memo_generator.controllers import controllers
+from app.web.commons.auth_middleware import AuthMiddleware
 
 
 origins = [
@@ -38,6 +40,8 @@ middlewares = [
     Middleware(GZipMiddleware, minimum_size=1000),
     # Setup Trusted Host
     Middleware(TrustedHostMiddleware, allowed_hosts=["*"]),
+    # Auth
+    Middleware(AuthMiddleware)
 ]
 
 app = FastAPI(title="FastApi-Curd", middleware=middlewares)
@@ -45,6 +49,10 @@ app = FastAPI(title="FastApi-Curd", middleware=middlewares)
 
 app.include_router(
     customer_controllers.router, prefix="/customers", tags=["/customers"]
+)
+
+app.include_router(
+    controllers.router, prefix="/image", tags=["/image"]
 )
 
 app = VersionedFastAPI(

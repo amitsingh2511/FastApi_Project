@@ -12,6 +12,7 @@ from alembic import context
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
 from src.app.web.customers.dao.db_model import Customers
+from src.app.web.memo_generator.dao.db_model import MemoGenerator
 
 config = context.config
 

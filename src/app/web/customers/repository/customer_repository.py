@@ -58,3 +58,16 @@ async def update_customer(
     await session.commit()
     await session.refresh(dbo)
     return dbo
+
+
+async def get_customer_by_email(
+    session: AsyncSession,
+    email: str
+):
+
+    query_statement = select(db_model.Customers).where(
+        db_model.Customers.email == email
+    )
+    result = await session.execute(query_statement)
+    response = result.scalars().first()
+    return response
